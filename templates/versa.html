@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Versa - Bancomat{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-4">
+    <div class="card shadow">
+      <div class="card-body">
+        <h3 class="card-title mb-4 text-center">Versamento Contanti</h3>
+        <form method="post" autocomplete="off">
+          <div class="mb-3">
+            <label for="importo" class="form-label">Importo (€)</label>
+            <input type="number" class="form-control" id="importo" name="importo" min="1" step="0.01" required>
+          </div>
+          <button type="submit" class="btn btn-success w-100">Versa</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

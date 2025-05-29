@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Storico Operazioni - Bancomat{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card shadow">
+      <div class="card-body">
+        <h3 class="card-title mb-4 text-center">Storico Operazioni</h3>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Tipo</th>
+                <th>Importo (€)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for op in storico %}
+              <tr>
+                <td>{{ op.data }}</td>
+                <td>{{ op.tipo }}</td>
+                <td>{{ op.importo|round(2) }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <a href="{{ url_for('bancomat.esporta_storico') }}" class="btn btn-outline-primary mt-3">Esporta in CSV</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{
+  "users": [
+    {
+      "username": "demo",
+      "pin": "1234",
+      "saldo": 1000.0,
+      "storico": [],
+      "tentativi": 0,
+      "bloccato": false,
+      "ultimo_accesso": null,
+      "prelievi_oggi": 0.0,
+      "data_prelievo": null
+    },
+    {
+      "username": "daniil",
+      "pin": "1111",
+      "saldo": 500.0,
+      "storico": [],
+      "tentativi": 0,
+      "bloccato": false,
+      "ultimo_accesso": null,
+      "prelievi_oggi": 0.0,
+      "data_prelievo": null
+    },
+    {
+      "username": "qwerty",
+      "pin": "1234",
+      "saldo": 0.0,
+      "storico": [],
+      "tentativi": 0,
+      "bloccato": false,
+      "ultimo_accesso": null,
+      "prelievi_oggi": 0.0,
+      "data_prelievo": null
+    },
+    {
+      "username": "asd",
+      "pin": "2222",
+      "saldo": 500.0,
+      "storico": [],
+      "tentativi": 0,
+      "bloccato": false,
+      "ultimo_accesso": null,
+      "prelievi_oggi": 0.0,
+      "data_prelievo": null
+    }
+  ]
+}

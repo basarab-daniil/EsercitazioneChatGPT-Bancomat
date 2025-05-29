@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Bonifico - Bancomat{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card shadow">
+      <div class="card-body">
+        <h3 class="card-title mb-4 text-center">Bonifico</h3>
+        <form method="post" autocomplete="off">
+          <div class="mb-3">
+            <label for="destinatario" class="form-label">Destinatario</label>
+            <select class="form-select" id="destinatario" name="destinatario" required>
+              <option value="" disabled selected>Seleziona utente</option>
+              {% for u in utenti %}
+                <option value="{{ u }}">{{ u }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="importo" class="form-label">Importo (€)</label>
+            <input type="number" class="form-control" id="importo" name="importo" min="0.01" step="0.01" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Invia Bonifico</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

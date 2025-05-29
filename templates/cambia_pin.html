@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Cambio PIN - Bancomat{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-4">
+    <div class="card shadow">
+      <div class="card-body">
+        <h3 class="card-title mb-4 text-center">Cambio PIN</h3>
+        <form method="post" autocomplete="off">
+          <div class="mb-3">
+            <label for="pin_vecchio" class="form-label">PIN attuale</label>
+            <input type="password" class="form-control" id="pin_vecchio" name="pin_vecchio" maxlength="4" minlength="4" pattern="\d{4}" required>
+          </div>
+          <div class="mb-3">
+            <label for="pin_nuovo" class="form-label">Nuovo PIN</label>
+            <input type="password" class="form-control" id="pin_nuovo" name="pin_nuovo" maxlength="4" minlength="4" pattern="\d{4}" required>
+            <div class="form-text">Il PIN deve essere di 4 cifre.</div>
+          </div>
+          <button type="submit" class="btn btn-secondary w-100">Cambia PIN</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
