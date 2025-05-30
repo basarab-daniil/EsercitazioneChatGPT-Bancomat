@@ -3,9 +3,27 @@ from datetime import datetime, timedelta
 from .bank import (
     verifica_pin, get_saldo, preleva, versa, cambia_pin, get_storico, esporta_storico_csv, user_exists, registra_utente
 )
+from bancomat.utils import carica_dati_json, salva_dati_json
 import os
 
 bancomat_bp = Blueprint('bancomat', __name__)
+
+DATA_PATH = './data/bancomat.json'
+
+def get_user():
+    username = session.get('username')
+    if not username:
+        return None
+    data = carica_dati_json(DATA_PATH, {})
+    for user in data.get('users', []):
+        if user['username'] == username:
+            return user
+    return None
+
+def update_user(user):
+    data = carica_dati_json(DATA_PATH, {})
+    data[user['username']] = user
+    salva_dati_json(DATA_PATH, data)
 
 @bancomat_bp.before_request
 def session_timeout():
@@ -56,22 +74,27 @@ def dashboard():
     if not session.get('logged_in'):
         return redirect(url_for('bancomat.login'))
     saldo = get_saldo(session['username'])
-    return render_template('dashboard.html', saldo=saldo)
+    from .bank import get_storico
+    storico = get_storico(session['username'])
+    # Genera labels e saldo_settimanale fittizi o reali
+    import datetime
+    today = datetime.date.today()
+    labels = [(today - datetime.timedelta(days=i)).strftime('%a') for i in range(6, -1, -1)]
+    saldo_settimanale = [saldo for _ in range(7)]  # Sostituire con dati reali se disponibili
+    return render_template('dashboard.html', saldo=saldo, labels=labels, saldo_settimanale=saldo_settimanale, storico=storico)
 
 @bancomat_bp.route('/preleva', methods=['GET', 'POST'])
 def preleva_view():
     if not session.get('logged_in'):
         return redirect(url_for('bancomat.login'))
     if request.method == 'POST':
-        try:
-            importo = float(request.form.get('importo', '0'))
-        except ValueError:
-            flash('Importo non valido.', 'danger')
-            return redirect(url_for('bancomat.preleva_view'))
-        if preleva(session['username'], importo):
-            flash(f'Prelievo di €{importo:.2f} effettuato con successo.', 'success')
+        importo = request.form.get('importo', '0')
+        from .bank import preleva
+        esito, messaggio = preleva(session['username'], importo)
+        if esito:
+            flash(messaggio, 'success')
         else:
-            flash('Prelievo non consentito (limite, saldo o importo non valido).', 'danger')
+            flash(messaggio, 'danger')
         return redirect(url_for('bancomat.dashboard'))
     return render_template('preleva.html')
 
@@ -147,3 +170,23 @@ def bonifico_view():
         else:
             flash(esito, 'danger')
     return render_template('bonifico.html', utenti=utenti)
+
+@bancomat_bp.route('/impostazioni', methods=['GET', 'POST'])
+def impostazioni_view():
+    if not session.get('logged_in'):
+        return redirect(url_for('bancomat.login'))
+    from .bank import imposta_limite_prelievo, cambia_pin, get_user
+    messaggio = None
+    if request.method == 'POST':
+        if 'nuovo_limite' in request.form:
+            esito, messaggio = imposta_limite_prelievo(session['username'], request.form.get('nuovo_limite', ''))
+            flash(messaggio, 'success' if esito else 'danger')
+        elif 'pin_vecchio' in request.form and 'pin_nuovo' in request.form:
+            esito = cambia_pin(session['username'], request.form.get('pin_vecchio', ''), request.form.get('pin_nuovo', ''))
+            if esito:
+                flash('PIN cambiato con successo.', 'success')
+            else:
+                flash('Cambio PIN non riuscito. Controlla i dati inseriti.', 'danger')
+    user = get_user(session['username'])
+    limite = user.get('limite_prelievo', 5000.0)
+    return render_template('impostazioni.html', limite=limite)

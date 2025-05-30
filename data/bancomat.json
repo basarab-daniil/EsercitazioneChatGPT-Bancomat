@@ -12,31 +12,42 @@
       "data_prelievo": null
     },
     {
-      "username": "daniil",
+      "username": "q",
       "pin": "1111",
       "saldo": 500.0,
       "storico": [],
       "tentativi": 0,
       "bloccato": false,
       "ultimo_accesso": null,
-      "prelievi_oggi": 0.0,
-      "data_prelievo": null
+      "prelievi_oggi": 500.0,
+      "data_prelievo": "2025-05-30"
     },
     {
-      "username": "qwerty",
-      "pin": "1234",
-      "saldo": 0.0,
+      "username": "pp",
+      "pin": "2222",
+      "saldo": 9500.0,
       "storico": [],
       "tentativi": 0,
       "bloccato": false,
       "ultimo_accesso": null,
-      "prelievi_oggi": 0.0,
-      "data_prelievo": null
+      "prelievi_oggi": 500.0,
+      "data_prelievo": "2025-05-30"
     },
     {
-      "username": "asd",
-      "pin": "2222",
-      "saldo": 500.0,
+      "username": "qwerty",
+      "pin": "4444",
+      "saldo": 5000.0,
+      "storico": [],
+      "tentativi": 0,
+      "bloccato": false,
+      "ultimo_accesso": null,
+      "prelievi_oggi": 5000.0,
+      "data_prelievo": "2025-05-30"
+    },
+    {
+      "username": "eew",
+      "pin": "1111",
+      "saldo": 100000.0,
       "storico": [],
       "tentativi": 0,
       "bloccato": false,
